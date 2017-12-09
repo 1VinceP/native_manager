@@ -7,8 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import { FIREBASE_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DB_URL, FIREBASE_PROJECT_ID, FIREBASE_MESSAGE_SENDER_ID } from 'react-native-dotenv';
 
 import reducers from './redux/reducers/reducerIndex';
-import { StatusBar, Header } from './components/common/index';
-import LoginForm from './components/LoginForm'
+import Router from './Router';
 
 class App extends Component {
 
@@ -28,12 +27,7 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <View>
-          <StatusBar color={'green'}/>
-          <Header color={'green'} title={'Manager'}/>
-
-          <LoginForm />
-        </View>
+          <Router />
       </Provider>
     );
   }
