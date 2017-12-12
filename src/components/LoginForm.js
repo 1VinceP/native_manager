@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StatusBar, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import { emailChanged, passwordChanged, loginUser } from '../redux/actions/actionIndex';
@@ -18,6 +18,7 @@ class LoginForm extends Component {
     onButtonPress() {
         const { email, password } = this.props
 
+        Keyboard.dismiss()
         this.props.loginUser( { email, password } )
     }
 
@@ -47,20 +48,21 @@ class LoginForm extends Component {
     render() {
         return (
             <Card>
+                <StatusBar hidden={true} />
                 <CardSection>
                     <Input label={'Email'}
-                           placeholder={'user@email.com'}
-                           onChangeText={(e) => this.onEmailChange(e)}
-                           value={this.props.email}
+                        placeholder={'user@email.com'}
+                        onChangeText={(e) => this.onEmailChange(e)}
+                        value={this.props.email}
                     />
                 </CardSection>
 
                 <CardSection>
                     <Input label={'Password'}
-                           placeholder={'password'}
-                           onChangeText={(e) => this.onPasswordChange(e)}
-                           value={this.props.password}
-                           secure={true}
+                        placeholder={'password'}
+                        onChangeText={(e) => this.onPasswordChange(e)}
+                        value={this.props.password}
+                        secure={true}
                     />
                 </CardSection>
 

@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import { FIREBASE_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DB_URL, FIREBASE_PROJECT_ID, FIREBASE_MESSAGE_SENDER_ID } from 'react-native-dotenv';
 
 import reducers from './redux/reducers/reducerIndex';
+import { MyStatusBar } from './components/common/index';
 import Router from './Router';
 
 class App extends Component {
@@ -27,7 +28,7 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-          <Router />
+        <Router />
       </Provider>
     );
   }
