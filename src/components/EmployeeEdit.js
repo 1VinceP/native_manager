@@ -43,6 +43,9 @@ class EmployeeEdit extends Component {
                     <Button color='green' pressed={() => this.onButtonPress()}>
                         Save Changes
                     </Button>
+                </CardSection>
+
+                <CardSection>
                     <Button color='orange' pressed={() => this.onTextPress()}>
                         Text Schedule
                     </Button>
