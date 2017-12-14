@@ -24,6 +24,7 @@ export function passwordChanged( text ) {
 };
 
 export function loginUser( { email, password } ) {
+    console.log( 'Logging in...' )
     
     return dispatch => {
         dispatch({
@@ -41,6 +42,8 @@ export function loginUser( { email, password } ) {
     
 }
 const loginUserSuccess = ( dispatch, user ) => {
+    console.log( 'Log in Success' )
+
     dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: user
@@ -50,6 +53,8 @@ const loginUserSuccess = ( dispatch, user ) => {
 }
 
 const loginUserFail = ( dispatch, err ) => {
+    console.log( 'Log in Fail' )
+
     dispatch({
         type: LOGIN_USER_FAIL,
         payload: err

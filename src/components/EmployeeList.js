@@ -1,34 +1,71 @@
 import React, { Component } from 'react';
-import { View, Text, BackHandler, ToastAndroid, StatusBar } from 'react-native';
+import { View, Text, ListView, BackHandler, ToastAndroid, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import ListItem from './ListItem';
+import { employeesFetch } from '../redux/actions/actionIndex';
 
 class EmployeeList extends Component {
 
-    componentDidMount() {
-        BackHandler.addEventListener( 'hardwareBackPress', this.handleBackButton )
+    componentWillMount() {
+        this.props.employeesFetch()
+
+        this.createDataSource( this.props )
+    }
+    
+    componentWillReceiveProps( nextProps ) {
+
+        this.createDataSource( nextProps )
+
     }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener( 'hardwareBackPress', this.handleBackButton )
+    createDataSource( { employees } ) {
+        const ds = new ListView.DataSource({
+            rowHasChanged: ( r1, r2 ) => r1 != r2
+        })
+
+        this.dataSource = ds.cloneWithRows( employees )
     }
 
-    handleBackButton() {
-        return true
+    renderRow( 
+        employee ) {
+        return <ListItem employee={employee} />
     }
+
+    // componentDidMount() {
+    //     BackHandler.addEventListener( 'hardwareBackPress', this.handleBackButton )
+    // }
+
+    // componentWillUnmount() {
+    //     BackHandler.removeEventListener( 'hardwareBackPress', this.handleBackButton )
+    // }
+
+    // handleBackButton() {
+    //     return true
+    // }
 
     render() {
         return (
             <View>
                 <StatusBar hidden={true} />
                 
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
+                <ListView enableEmptySections
+                          dataSource={this.dataSource}
+                          renderRow={this.renderRow}
+                />
             </View>
         )
     }
 }
 
-export default EmployeeList;
+function mapStateToProps( state ) {
+    const employees = _.map( state.employees, ( val, uid ) => {
+        return { ...val, uid }
+    } )
+
+    return {
+        employees
+    }
+}
+
+export default connect( mapStateToProps, { employeesFetch } )(EmployeeList);
