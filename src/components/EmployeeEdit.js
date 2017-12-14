@@ -3,8 +3,8 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import Communications from 'react-native-communications';
 import { View, Text } from 'react-native';
-import { employeeUpdate, employeeSave } from '../redux/actions/actionIndex';
-import { Card, CardSection, Button } from './common';
+import { employeeUpdate, employeeSave, employeeDelete } from '../redux/actions/actionIndex';
+import { Card, CardSection, Button, ConfirmModal } from './common';
 import EmployeeForm from './EmployeeForm';
 
 class EmployeeEdit extends Component {
@@ -12,7 +12,7 @@ class EmployeeEdit extends Component {
         super();
 
         this.state = {
-
+            showModal: false
         }
     }
 
@@ -34,6 +34,22 @@ class EmployeeEdit extends Component {
         Communications.text( phone, `Your upcoming shift is on ${shift}` )
     }
 
+    onFirePress() {
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+
+    onConfirmAccept() {
+        const { uid } = this.props.employee
+
+        this.props.employeeDelete( uid )
+    }
+
+    onConfirmDecline() {
+
+    }
+
     render() {
         return (
             <Card>
@@ -50,6 +66,19 @@ class EmployeeEdit extends Component {
                         Text Schedule
                     </Button>
                 </CardSection>
+
+                <CardSection>
+                    <Button color='red' pressed={() => this.onFirePress()}>
+                        Fire Employee
+                    </Button>
+                </CardSection>
+
+                <ConfirmModal visible={this.state.showModal}
+                              onAccept={() => this.onConfirmAccept()}
+                              onDecline={() => this.onFirePress()}
+                >
+                    Are you sure you want to fire {this.props.employee.name}?
+                </ConfirmModal>
             </Card>
         )
     }
@@ -65,4 +94,4 @@ function mapStateToProps( state ) {
     };
 }
 
-export default connect( mapStateToProps, { employeeUpdate, employeeSave } )(EmployeeEdit);
+export default connect( mapStateToProps, { employeeUpdate, employeeSave, employeeDelete } )(EmployeeEdit);

@@ -45,15 +45,27 @@ export function employeesFetch() {
     }
 }
 
-export function employeeSave( { name, phone, shift, id } ) {
+export function employeeSave( { name, phone, shift, uid } ) {
     const { currentUser } = firebase.auth()
 
     return dispatch => {
-        firebase.database().ref( `/users/${currentUser.uid}/employees/${id}` )
+        firebase.database().ref( `/users/${currentUser.uid}/employees/${uid}` )
             .set({ name, phone, shift })
             .then( () => {
                 Actions.employeeList({ type: 'reset' })
                 dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
+            } )
+    }
+}
+
+export function employeeDelete( uid ) {
+    const { currentUser } = firebase.auth()
+
+    return () => {
+        firebase.database().ref( `/users/${currentUser.uid}/employees/${uid}` )
+            .remove()
+            .then( () => {
+                Actions.employeeList({ type: 'reset' })
             } )
     }
 }
